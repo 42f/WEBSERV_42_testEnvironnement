@@ -8,7 +8,7 @@ LABEL service=nginx
 ENV DEBIAN_FRONTEND="noninteractive"
 
 # INSTALL ALL PACKAGED
-RUN apk update && apk upgrade && apk add tzdata nginx openssh openssh-server supervisor zsh
+RUN apk update && apk upgrade && apk add tzdata nginx openssh openssh-server supervisor zsh curl
 RUN mkdir -p /run/nginx/
 
 #ssh
@@ -31,9 +31,9 @@ ADD ./ssh/banner /etc/motd
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config \
  	&& echo "AllowUsers root OtherUser" >> /etc/ssh/sshd_config
 
-#RUN supervisord
-
+# SUPERVISORD CONFIGURATION
+COPY ./supervisor/kill.sh /bin/kill.sh
 RUN mkdir -p /etc/supervisor/conf.d/
 ADD ./supervisor/supervisor.conf /etc/supervisor/conf.d/
 
-CMD /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisor.conf
+CMD /usr/bin/supervisord -c /tmp/supervisor/supervisor.conf
