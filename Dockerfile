@@ -25,8 +25,8 @@ RUN cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
 # SSH CONFIGURATION
 RUN ssh-keygen -A && passwd -d root
 RUN mkdir -p ~/.ssh && touch ~/.ssh/authorized_keys
-COPY ./ssh/macbook.pub /root/.ssh/macbook.pub
-RUN cat ~/.ssh/macbook.pub > /root/.ssh/authorized_keys
+ADD ./ssh/webserv_testenv.pub /root/.ssh/webserv_testenv.pub
+RUN cat ~/.ssh/webserv_testenv.pub > /root/.ssh/authorized_keys
 ADD ./ssh/banner /etc/motd
 RUN echo "PermitRootLogin yes" >> /etc/ssh/sshd_config \
  	&& echo "AllowUsers root OtherUser" >> /etc/ssh/sshd_config

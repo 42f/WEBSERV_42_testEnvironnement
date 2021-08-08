@@ -8,9 +8,6 @@ start: all
 stop:
 	./02_kill.sh
 
-clean:
-	docker rmi
-
 attach:
 	./01_attach.sh
 
